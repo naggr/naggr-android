@@ -5,4 +5,7 @@
     <string name="tab_text_3">Tab 3</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_add_contacts">Add Nag</string>
+    <string name="contact_image_text">contact image</string>
+    <string name="contact_name_text">contact name</string>
 </resources>

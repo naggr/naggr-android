@@ -25,8 +25,17 @@
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:title="@string/app_name">
 
+            <Button
+                android:id="@+id/add_button"
+                android:layout_width="75px"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_weight="1"
+                android:background="@drawable/ic_baseline_add_24px" />
+
         </android.support.v7.widget.Toolbar>
 
+        <!--
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
@@ -51,6 +60,7 @@
                 android:text="@string/tab_text_3" />
 
         </android.support.design.widget.TabLayout>
+        -->
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
@@ -65,6 +75,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:srcCompat="@drawable/ic_baseline_add_24px" />
 
 </android.support.design.widget.CoordinatorLayout>

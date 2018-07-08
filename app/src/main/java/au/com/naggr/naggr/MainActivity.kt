@@ -1,22 +1,25 @@
 package au.com.naggr.naggr
 
-import android.support.design.widget.TabLayout
-import android.support.design.widget.Snackbar
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.ViewPager
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
+import org.json.JSONException
+import org.json.JSONArray
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,12 +32,49 @@ class MainActivity : AppCompatActivity() {
      * [android.support.v4.app.FragmentStatePagerAdapter].
      */
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
+    // private var mAddButton: Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         setSupportActionBar(toolbar)
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        if (prefs.contains("contacts")) {
+            val contacts = prefs.getString("contacts", "")
+            System.out.println("contacts: $contacts")
+
+            if (contacts.isNotEmpty()) {
+                val _contacts = ArrayList<String>()
+                try {
+                    val a = JSONArray(_contacts)
+                    for (i in 0 until a.length()) {
+                        _contacts.add(a.optString(i))
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+
+            if (prefs.contains("chosenContacts")) {
+                val chosenContacts = prefs.getString("chosenContacts", "")
+                System.out.println("chosenContacts: $chosenContacts")
+
+                if (chosenContacts.isNotEmpty()) {
+                    val _chosenContacts = ArrayList<String>()
+                    try {
+                        val a = JSONArray(chosenContacts)
+                        for (i in 0 until a.length()) {
+                            _chosenContacts.add(a.optString(i))
+                        }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+        }
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
@@ -42,14 +82,22 @@ class MainActivity : AppCompatActivity() {
         // Set up the ViewPager with the sections adapter.
         container.adapter = mSectionsPagerAdapter
 
-        container.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
-        tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(container))
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+        val mAddButton = findViewById<Button>(R.id.add_button)
+        mAddButton.setOnClickListener {
+            chooseContact()
         }
 
+        /*container.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
+        tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(container))*/
+
+        fab.setOnClickListener {
+            chooseContact()
+        }
+
+    }
+
+    private fun chooseContact() {
+        startActivity(Intent(this, AddContactsActivity::class.java))
     }
 
 
@@ -87,7 +135,7 @@ class MainActivity : AppCompatActivity() {
 
         override fun getCount(): Int {
             // Show 3 total pages.
-            return 3
+            return 30
         }
     }
 
